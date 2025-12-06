@@ -203,7 +203,7 @@ sub ipv6_package {
     return $ipv6_package if $ipv6_package;
 
     eval { require Socket6 }
-        or $server->fatal("Port configuration using IPv6 could not be started becauses of Socket6 library issues: $@");
+        or $server->fatal("Port configuration using IPv6 could not be started because of Socket6 library issues: $@");
 
     my $pkg = $server->{'server'}->{'ipv6_package'};
     if ($pkg) {
@@ -220,7 +220,7 @@ sub ipv6_package {
         if (eval { require IO::Socket::INET6 }) {
             $pkg = 'IO::Socket::INET6';
         } else {
-            $server->fatal("Port ocnfiguration using IPv6 could not be started.  Could not find or load IO::Socket::IP or IO::Socket::INET6:\n  $err  $@")
+            $server->fatal("Port configuration using IPv6 could not be started.  Could not find or load IO::Socket::IP or IO::Socket::INET6:\n  $err  $@")
         }
     }
     return $ipv6_package = $pkg;
