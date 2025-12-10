@@ -71,6 +71,17 @@ sub object {
     return wantarray ? @sock : $sock[0];
 }
 
+sub IPPROTO_IPV6 { eval { Socket::IPPROTO_IPV6() } }
+sub IPV6_V6ONLY  { eval { Socket::IPV6_V6ONLY()  } }
+
+sub socket {
+    my $sock = shift;
+    my $ret  = $sock->SUPER::socket(@_);
+    my $ipv  = $sock->NS_ipv;
+    eval { setsockopt $sock, IPPROTO_IPV6, IPV6_V6ONLY, $ipv eq 6?1:0 } or warn "setsockopt(IPV6_V6ONLY) failed: ($!) ($@)" if $ipv =~ /[6*]/;
+    return $ret;
+}
+
 sub connect {
     my ($sock, $server) = @_;
     my $host = $sock->NS_host;
