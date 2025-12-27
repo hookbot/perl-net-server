@@ -27,7 +27,7 @@ use Socket ();
 BEGIN {
     eval { require Net::SSLeay; 1 }
         or warn "Module Net::SSLeay is required for SSLeay.";
-    for my $sub (qw(load_error_strings SSLeay_add_ssl_algorithms ENGINE_load_builtin_engines ENGINE_register_all_complete randomize)) {
+    for my $sub (qw(load_error_strings SSLeay_add_ssl_algorithms randomize)) {
         Net::SSLeay->can($sub)->();
     }
     eval { [Fcntl::F_GETFL(), Fcntl::F_SETFL(), Fcntl::O_NONBLOCK()] } || die "Could not access Fcntl constant while loading ".__PACKAGE__.": $@";
