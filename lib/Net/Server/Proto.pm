@@ -36,7 +36,7 @@ BEGIN {
         my @res = ();
         foreach my $pkg ($ipv6_package,"Socket","Socket6") {
             no strict 'refs';
-            no warnings 'redefine';
+            no warnings qw(redefine prototype);
             if ($pkg and eval { @res = &{"$pkg\::$basename"}(@_); 1; }) {
                 $imported->{$fullname} = $pkg->can($basename);
                 eval { *{ $fullname } = $imported->{$fullname} } or warn "$fullname: On-The-Fly replacement failed: $@";
@@ -45,10 +45,10 @@ BEGIN {
         }
         die "$fullname: Failed to locate definition";
     };
-    sub AF_INET6 () { $s->(@_) }
-    sub AI_PASSIVE () { $s->(@_) }
-    sub NI_NUMERICHOST () { $s->(@_) }
-    sub NI_NUMERICSERV () { $s->(@_) }
+    sub AF_INET6 { $s->(@_) }
+    sub AI_PASSIVE { $s->(@_) }
+    sub NI_NUMERICHOST { $s->(@_) }
+    sub NI_NUMERICSERV { $s->(@_) }
     sub sockaddr_in6 { $s->(@_) }
     sub inet_ntop { $s->(@_) }
     sub getaddrinfo { $s->(@_) }
